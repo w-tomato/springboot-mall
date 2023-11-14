@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mall.modules.goods.mapper.GoodsMapper">
+
+    <resultMap id="goodsMapper" type="com.example.mall.modules.goods.entity.Goods">
+        <id property="id" column="id" />
+        <result column="name" property="name" />
+        <result column="price" property="price" />
+        <result column="intro" property="intro" />
+        <result column="cover_mage" property="coverImage" />
+        <result column="remain" property="remain" />
+    </resultMap>
+
+    <select id="selectAll" resultMap="goodsMapper">
+        select * from goods
+    </select>
+
+</mapper>

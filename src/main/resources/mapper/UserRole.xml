@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mall.modules.user.mapper.UserRoleMapper">
+
+    <resultMap id="userMapper" type="com.example.mall.modules.user.entity.UserRole">
+        <id property="id" column="id" />
+        <result column="name" property="name" />
+    </resultMap>
+
+    <select id="getUserRoleList" resultMap="userMapper">
+        select * from user_roles where id in
+        <foreach collection="roleIdList" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>
