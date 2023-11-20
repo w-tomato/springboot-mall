@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mall.modules.useraction.mapper.UserActionLogMapper">
+  <resultMap id="BaseResultMap" type="com.example.mall.modules.useraction.entity.UserActionLog">
+    <id column="log_id" jdbcType="INTEGER" property="logId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="action_type" jdbcType="VARCHAR" property="actionType" />
+    <result column="action_time" jdbcType="TIMESTAMP" property="actionTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    log_id, user_id, action_type, action_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_action_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_action_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.mall.modules.useraction.entity.UserActionLog">
+    insert into user_action_log (log_id, user_id, action_type, 
+      action_time)
+    values (#{logId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{actionType,jdbcType=VARCHAR}, 
+      #{actionTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.mall.modules.useraction.entity.UserActionLog">
+    insert into user_action_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        log_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="actionType != null">
+        action_type,
+      </if>
+      <if test="actionTime != null">
+        action_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="actionType != null">
+        #{actionType,jdbcType=VARCHAR},
+      </if>
+      <if test="actionTime != null">
+        #{actionTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.mall.modules.useraction.entity.UserActionLog">
+    update user_action_log
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="actionType != null">
+        action_type = #{actionType,jdbcType=VARCHAR},
+      </if>
+      <if test="actionTime != null">
+        action_time = #{actionTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.mall.modules.useraction.entity.UserActionLog">
+    update user_action_log
+    set user_id = #{userId,jdbcType=INTEGER},
+      action_type = #{actionType,jdbcType=VARCHAR},
+      action_time = #{actionTime,jdbcType=TIMESTAMP}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+</mapper>

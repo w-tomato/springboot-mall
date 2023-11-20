@@ -50,8 +50,8 @@ public class LoginController {
         }
 
         // 生成token
-        String token = LoginUtils.getToken(user, 60 * 60 * 1000);
-        String freshToken = LoginUtils.getToken(user, 24 * 60 * 60 * 1000);
+        String token = LoginUtils.createToken(user, 3 * 1000);
+        String freshToken = LoginUtils.createToken(user, 24 * 60 * 60 * 1000);
         Map<String, Object> dataMap= new HashMap<>();
         dataMap.put("token", token);
         dataMap.put("freshToken", freshToken);
