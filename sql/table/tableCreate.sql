@@ -1,13 +1,24 @@
-CREATE TABLE `order` (
-                         `id` INT AUTO_INCREMENT COMMENT '订单ID',
-                         `user_id` INT NOT NULL COMMENT '用户ID',
-                         `product_id` INT NOT NULL COMMENT '商品ID',
-                         `status` VARCHAR(20) NOT NULL COMMENT '订单状态',
-                         `create_time` DATETIME NOT NULL COMMENT '订单日期',
-                         `order_amount` DECIMAL(10, 2) NOT NULL COMMENT '订单金额',
-                         PRIMARY KEY (`id`),
-                         INDEX `idx_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
+-- 订单表
+CREATE TABLE orders (
+                        id INT PRIMARY KEY AUTO_INCREMENT COMMENT '订单ID', -- 订单ID，主键，自动递增
+                        customer_id INT NOT NULL COMMENT '客户ID', -- 客户ID，非空字段
+                        order_date DATETIME NOT NULL COMMENT '下单日期和时间', -- 下单日期和时间，非空字段
+                        total_amount DECIMAL(10, 2) NOT NULL COMMENT '订单总金额', -- 订单总金额，最大10位数，其中2位小数，非空字段
+                        shipping_address VARCHAR(255) NOT NULL COMMENT '配送地址', -- 配送地址，最大长度255个字符，非空字段
+                        payment_method VARCHAR(50) NOT NULL COMMENT '支付方式', -- 支付方式，最大长度50个字符，非空字段
+                        status VARCHAR(20) NOT NULL COMMENT '订单状态', -- 订单状态，最大长度20个字符，非空字段
+                        create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '记录创建时间', -- 记录创建时间，默认为当前时间
+                        update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间' -- 记录更新时间，默认为当前时间，且在更新时自动更新
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单表';
+
+-- 订单明细表
+CREATE TABLE order_details (
+                               id INT PRIMARY KEY AUTO_INCREMENT COMMENT '明细ID', -- 明细ID，主键，自动递增
+                               order_id INT NOT NULL COMMENT '订单ID', -- 订单ID，非空字段
+                               product_id INT NOT NULL COMMENT '商品ID', -- 商品ID，非空字段
+                               quantity INT NOT NULL COMMENT '商品数量', -- 商品数量，非空字段
+                               price DECIMAL(10, 2) NOT NULL COMMENT '商品单价' -- 商品单价，最大10位数，其中2位小数，非空字段
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单明细表';
 
 CREATE TABLE `shopping_cart` (
                                  `id` INT AUTO_INCREMENT COMMENT '购物车ID',
@@ -19,6 +30,18 @@ CREATE TABLE `shopping_cart` (
                                  INDEX `idx_user_id` (`user_id`),
                                  INDEX `idx_product_id` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='购物车表';
+
+CREATE TABLE `product` (
+                           `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                           `name` varchar(100) NOT NULL COMMENT '商品名称',
+                           `category_id` int NOT NULL COMMENT '分类ID',
+                           `price` bigint NOT NULL COMMENT '商品价格',
+                           `remain` int NOT NULL COMMENT '剩余数量',
+                           `status` varchar(20) NOT NULL COMMENT '商品状态',
+                           `intro` varchar(255) NOT NULL COMMENT '商品介绍',
+                           `cover_image` varchar(255) DEFAULT NULL COMMENT '封面图',
+                           PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品表'
 
 CREATE TABLE `product_category` (
                             `id` INT AUTO_INCREMENT COMMENT '分类ID',

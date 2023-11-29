@@ -7,17 +7,51 @@
         <id property="id" column="id" />
         <result column="name" property="name" />
         <result column="nickname" property="nickname" />
+        <result column="phone" property="phone" />
         <result column="role_id" property="roleId" />
         <result column="introduction" property="introduction" />
+        <result column="shipping_address" property="shippingAddress" />
         <result column="avatar" property="avatar" />
     </resultMap>
 
+    <sql id="user_columns">
+        id, name, nickname, role_id, phone, introduction, shipping_address, avatar
+    </sql>
+
+    <update id="updateUser">
+        update user
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+            <if test="shippingAddress != null">
+                shipping_address = #{shippingAddress},
+            </if>
+            <if test="avatar != null">
+                avatar = #{avatar},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
     <select id="selectOne" resultMap="userMapper">
-        select * from user where name = #{name} and password = #{password}
+        select <include refid="user_columns" /> from user where name = #{name} and password = #{password}
     </select>
 
     <select id="selectById" resultMap="userMapper">
-        select * from user where id = #{id}
+        select <include refid="user_columns" /> from user where id = #{id}
     </select>
 
 </mapper>

@@ -24,4 +24,8 @@ public class UserService {
         return userMapper.selectById(id);
     }
 
+    public void updateUser(User user) {
+        userMapper.updateUser(user);
+    }
+
 }

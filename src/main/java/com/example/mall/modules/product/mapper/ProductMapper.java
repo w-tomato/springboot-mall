@@ -20,5 +20,5 @@ public interface ProductMapper {
 
     List<Product> selectAll();
 
-    List<Product> selectByName(String name);
+    List<Product> selectByName(String name, String status);
 }

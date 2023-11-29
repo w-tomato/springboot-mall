@@ -7,11 +7,12 @@
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="price" jdbcType="BIGINT" property="price" />
     <result column="remain" jdbcType="INTEGER" property="remain" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="intro" jdbcType="VARCHAR" property="intro" />
     <result column="cover_image" jdbcType="VARCHAR" property="coverImage" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, category_id, price, remain, intro, cover_image
+    id, name, category_id, price, remain, status, intro, cover_image
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -28,21 +29,16 @@
     select
     <include refid="Base_Column_List" />
     from product
-    where name like concat('%', #{name}, '%')
+    where status = #{status} and name like concat('%', #{name}, '%')
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from product
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mall.modules.product.entity.Product">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into product (name, category_id, price, 
-      remain, intro, cover_image
-      )
+  <insert id="insert" useGeneratedKeys="true" parameterType="com.example.mall.modules.product.entity.Product">
+    insert into product (name, category_id, price, remain, status, intro, cover_image)
     values (#{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{price,jdbcType=BIGINT}, 
-      #{remain,jdbcType=INTEGER}, #{intro,jdbcType=VARCHAR}, #{coverImage,jdbcType=VARCHAR}
+      #{remain,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR},#{intro,jdbcType=VARCHAR}, #{coverImage,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.example.mall.modules.product.entity.Product">
@@ -63,6 +59,9 @@
       <if test="remain != null">
         remain,
       </if>
+      <if test="status != null">
+      status,
+      </if>
       <if test="intro != null">
         intro,
       </if>
@@ -82,6 +81,9 @@
       </if>
       <if test="remain != null">
         #{remain,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+      #{status,jdbcType=VARCHAR},
       </if>
       <if test="intro != null">
         #{intro,jdbcType=VARCHAR},
@@ -106,6 +108,9 @@
       <if test="remain != null">
         remain = #{remain,jdbcType=INTEGER},
       </if>
+      <if test="status != null">
+      status = #{status,jdbcType=VARCHAR},
+      </if>
       <if test="intro != null">
         intro = #{intro,jdbcType=VARCHAR},
       </if>
@@ -121,6 +126,7 @@
       category_id = #{categoryId,jdbcType=INTEGER},
       price = #{price,jdbcType=BIGINT},
       remain = #{remain,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
       intro = #{intro,jdbcType=VARCHAR},
       cover_image = #{coverImage,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}

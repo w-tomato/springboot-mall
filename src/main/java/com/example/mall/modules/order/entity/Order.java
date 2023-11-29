@@ -1,20 +1,26 @@
 package com.example.mall.modules.order.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Order {
     private Integer id;
 
-    private Integer userId;
+    private Integer customerId;
 
-    private Integer productId;
+    private Date orderDate;
+
+    private BigDecimal totalAmount;
+
+    private String shippingAddress;
+
+    private String paymentMethod;
 
     private String status;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
-    private BigDecimal orderAmount;
+    private Date updateTime;
 
     public Integer getId() {
         return id;
@@ -24,20 +30,44 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Date getOrderDate() {
+        return orderDate;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public String getStatus() {
@@ -48,19 +78,19 @@ public class Order {
         this.status = status;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public BigDecimal getOrderAmount() {
-        return orderAmount;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setOrderAmount(BigDecimal orderAmount) {
-        this.orderAmount = orderAmount;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

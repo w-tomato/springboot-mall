@@ -1,18 +1,15 @@
 package com.example.mall.intercepter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
+import com.alibaba.fastjson.JSON;
 import com.example.mall.modules.user.entity.User;
+import com.example.mall.modules.user.entity.UserRole;
+import com.example.mall.modules.user.entity.bo.UserBO;
+import com.example.mall.modules.user.services.UserRoleService;
 import com.example.mall.modules.user.services.UserService;
 import com.example.mall.security.LoginUtils;
 import com.example.mall.security.PassToken;
-import com.example.mall.security.UserLoginToken;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -22,9 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author w-tomato
@@ -37,6 +34,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Autowired
     UserService userService;
+    @Autowired
+    UserRoleService userRoleService;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws Exception {
@@ -94,6 +93,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        // 根据用户角色ID查询用户角色列表
+        List<Integer> roleIdList = Arrays.stream(user.getRoleId().split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        List<UserRole> userRoleList = userRoleService.getUserRoleList(roleIdList);
+        UserBO userBO = new UserBO();
+        BeanUtils.copyProperties(user, userBO);
+        userBO.setRoles(userRoleList.stream().map(UserRole::getName).collect(Collectors.toList()));
+        httpServletRequest.setAttribute("userInfo", userBO);
+
         if (needRefresh) {
             // 生成新的token和refreshToken
             String newToken = LoginUtils.createToken(user, 3 * 1000);
@@ -102,6 +109,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             // 更新响应头中的token和refreshToken
             httpServletResponse.setHeader("Authorization", newToken);
             httpServletResponse.setHeader("freshToken", newRefToken);
+            httpServletRequest.setAttribute("token", newToken);
         } else {
             // 放入原来的token和refreshToken
             httpServletResponse.setHeader("Authorization", token);
@@ -110,25 +118,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private User getUserFromToken(String token) {
-        try {
-            DecodedJWT decodedJWT = JWT.decode(token);
-            String userValue = decodedJWT.getAudience().get(0);
-            if (StringUtils.isBlank(userValue) || !StringUtils.isNumeric(userValue)) {
-                return null;
-            }
-            int userId = Integer.parseInt(userValue);
-            return userService.selectById(userId);
-        } catch (JWTDecodeException e) {
-            return null;
-        }
-    }
-
     private void setResponse(HttpServletResponse response, int status, String message) throws IOException {
-        response.setStatus(status);
-        response.setContentType("application/json");
+        response.setStatus(200);
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"message\":\"" + message + "\"}");
+        response.setContentType("application/json; charset=utf-8");
+        ResponseObject responseObject = new ResponseObject(message, status, null);
+        response.getWriter().write(JSON.toJSONString(responseObject));
     }
 
     @Override
@@ -141,6 +136,45 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest httpServletRequest,
                                 HttpServletResponse httpServletResponse,
                                 Object o, Exception e) throws Exception {
+    }
+
+    class ResponseObject {
+        private String message;
+        private Integer code;
+        private Object data;
+
+        public ResponseObject() {
+        }
+
+        public ResponseObject(String message, Integer code, Object data) {
+            this.message = message;
+            this.code = code;
+            this.data = data;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public void setCode(Integer code) {
+            this.code = code;
+        }
+
+        public Object getData() {
+            return data;
+        }
+
+        public void setData(Object data) {
+            this.data = data;
+        }
     }
 
 }

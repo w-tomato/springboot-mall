@@ -66,37 +66,6 @@ public class LoginController {
         return new ResultObject(200, "登录成功", dataMap);
     }
 
-    /*@RequestMapping("/info")
-    public ResultObject info(String token) {
-        ResultObject resultObject = new ResultObject();
-        resultObject.setCode(200);
-        resultObject.setMessage("登录成功");
-
-        if ("admin-token".equals(token)) {
-            UserBO userInfoBO = new UserBO();
-            userInfoBO.setName("admin");
-            userInfoBO.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
-            userInfoBO.setIntroduction("I am a super administrator");
-            userInfoBO.setRoles(new ArrayList<String>(){{
-                add("admin");
-            }});
-            resultObject.setData(userInfoBO);
-        } else if ("editor-token".equals(token)) {
-            UserBO userInfoBO = new UserBO();
-            userInfoBO.setName("editor");
-            userInfoBO.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
-            userInfoBO.setIntroduction("I am a Normal editor");
-            userInfoBO.setRoles(new ArrayList<String>(){{
-                add("editor");
-            }});
-            resultObject.setData(userInfoBO);
-        } else {
-            resultObject.setCode(500);
-            resultObject.setMessage("账号或密码错误");
-        }
-        return resultObject;
-    }*/
-
     @PassToken
     @RequestMapping("/logout")
     public ResultObject logout() {

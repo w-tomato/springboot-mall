@@ -5,6 +5,7 @@ import com.example.mall.pojo.ResultObject;
 import com.example.mall.modules.product.services.ProductService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +25,9 @@ public class ProductController {
     @RequestMapping("/list")
     public ResultObject list(@RequestParam("pageNum") Integer pageNum,
                              @RequestParam("pageSize") Integer pageSize,
-                             @RequestParam("name") String name) {
-        PageInfo<Product> data = goodsService.list(pageNum, pageSize, name);
+                             @RequestParam("name") String name,
+                             @RequestParam("status") String status) {
+        PageInfo<Product> data = goodsService.list(pageNum, pageSize, name, status);
         ResultObject resultObject = new ResultObject();
         resultObject.setCode(200);
         resultObject.setMessage("success");
@@ -33,8 +35,18 @@ public class ProductController {
         return resultObject;
     }
 
+    @RequestMapping("/get")
+    public ResultObject get(@RequestParam("id") Long id) {
+        Product product = goodsService.selectOne(id);
+        ResultObject resultObject = new ResultObject();
+        resultObject.setCode(200);
+        resultObject.setMessage("success");
+        resultObject.setData(product);
+        return resultObject;
+    }
+
     @RequestMapping("/add")
-    public ResultObject add(Product product) {
+    public ResultObject add(@RequestBody Product product) {
         goodsService.add(product);
         ResultObject resultObject = new ResultObject();
         resultObject.setCode(200);
@@ -43,7 +55,7 @@ public class ProductController {
     }
 
     @RequestMapping("/update")
-    public ResultObject update(Product product) {
+    public ResultObject update(@RequestBody Product product) {
         goodsService.update(product);
         ResultObject resultObject = new ResultObject();
         resultObject.setCode(200);
@@ -52,7 +64,7 @@ public class ProductController {
     }
 
     @RequestMapping("/delete")
-    public ResultObject delete(Long id) {
+    public ResultObject delete(@RequestBody Long id) {
         goodsService.delete(id);
         ResultObject resultObject = new ResultObject();
         resultObject.setCode(200);

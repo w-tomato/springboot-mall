@@ -13,4 +13,6 @@ public interface UserMapper {
 
     User selectById(Integer id);
 
+    void updateUser(User user);
+
 }

@@ -7,15 +7,29 @@
     <result column="product_id" jdbcType="INTEGER" property="productId" />
     <result column="quantity" jdbcType="INTEGER" property="quantity" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, product_id, quantity, create_time
+    id, user_id, product_id, quantity, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from shopping_cart
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from shopping_cart
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserIdAndProductId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from shopping_cart
+    where user_id = #{userId,jdbcType=INTEGER}
+    and product_id = #{productId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from shopping_cart
@@ -27,8 +41,7 @@
     </selectKey>
     insert into shopping_cart (user_id, product_id, quantity, 
       create_time)
-    values (#{userId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    values (#{userId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, now())
   </insert>
   <insert id="insertSelective" parameterType="com.example.mall.modules.shoppingcart.entity.ShoppingCart">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -45,9 +58,7 @@
       <if test="quantity != null">
         quantity,
       </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
+      create_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -59,9 +70,7 @@
       <if test="quantity != null">
         #{quantity,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
+      now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.mall.modules.shoppingcart.entity.ShoppingCart">
@@ -79,6 +88,7 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      update_time = now()
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -87,7 +97,8 @@
     set user_id = #{userId,jdbcType=INTEGER},
       product_id = #{productId,jdbcType=INTEGER},
       quantity = #{quantity,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

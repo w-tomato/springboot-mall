@@ -21,9 +21,13 @@ public class User {
 
     private String password;
 
+    private String phone;
+
     private String roleId;
 
     private String introduction;
+
+    private String shippingAddress;
 
     private String avatar;
 

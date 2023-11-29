@@ -91,7 +91,7 @@
         </javaTypeResolver>
 
         <!--  配置 Java 模型生成器 -->
-        <javaModelGenerator targetPackage="com.example.mall.modules.product.entity" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.example.mall.modules.orderdetail.entity" targetProject="src/main/java">
             <!-- 自动为每一个生成的类创建一个构造方法，构造方法包含了所有的 field，而不是使用 setter；
               默认值为 false -->
             <property name="constructorBased" value="false"/>
@@ -116,14 +116,14 @@
         </sqlMapGenerator>
 
         <!--  关于 Mapper 接口的生成 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.mall.modules.product.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.mall.modules.orderdetail.mapper"
                              targetProject="src/main/java">
             <!-- 同 javaModelGenerator 元素中的配置  -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
         <!-- 配置需要生成代码的数据库表 -->
-        <table tableName="product" domainObjectName="Product"
+        <table tableName="order_details" domainObjectName="OrderDetail"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

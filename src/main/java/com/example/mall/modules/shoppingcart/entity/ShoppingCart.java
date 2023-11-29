@@ -1,55 +1,24 @@
 package com.example.mall.modules.shoppingcart.entity;
 
-import java.time.LocalDateTime;
+import com.example.mall.modules.product.entity.Product;
+import lombok.Data;
 
+import java.util.Date;
+
+@Data
 public class ShoppingCart {
     private Integer id;
 
     private Integer userId;
 
-    private Integer productId;
+    private Long productId;
 
     private Integer quantity;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
+    private Date updateTime;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private Product product;
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
 }

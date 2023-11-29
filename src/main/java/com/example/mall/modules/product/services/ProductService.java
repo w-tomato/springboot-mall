@@ -18,9 +18,9 @@ public class ProductService {
     @Autowired
     private ProductMapper productMapper;
 
-    public PageInfo<Product> list(Integer pageNum, Integer pageSize, String name) {
+    public PageInfo<Product> list(Integer pageNum, Integer pageSize, String name, String status) {
         return PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(
-                () -> productMapper.selectByName(name));
+                () -> productMapper.selectByName(name, status));
     }
 
     public void add(Product product) {
@@ -33,6 +33,10 @@ public class ProductService {
 
     public void delete(Long id) {
         productMapper.deleteByPrimaryKey(id);
+    }
+
+    public Product selectOne(Long id) {
+        return productMapper.selectByPrimaryKey(id);
     }
 
 

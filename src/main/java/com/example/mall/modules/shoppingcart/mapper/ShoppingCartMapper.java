@@ -2,6 +2,8 @@ package com.example.mall.modules.shoppingcart.mapper;
 
 import com.example.mall.modules.shoppingcart.entity.ShoppingCart;
 
+import java.util.List;
+
 public interface ShoppingCartMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -11,7 +13,11 @@ public interface ShoppingCartMapper {
 
     ShoppingCart selectByPrimaryKey(Integer id);
 
+    List<ShoppingCart> selectByUserId(Integer userId);
+
     int updateByPrimaryKeySelective(ShoppingCart record);
 
     int updateByPrimaryKey(ShoppingCart record);
+
+    List<ShoppingCart> selectByUserIdAndProductId(Integer userId, Long productId);
 }
