@@ -2,6 +2,8 @@ package com.example.mall.modules.product.mapper;
 
 import com.example.mall.modules.product.entity.ProductCategory;
 
+import java.util.List;
+
 public interface ProductCategoryMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface ProductCategoryMapper {
     int updateByPrimaryKeySelective(ProductCategory record);
 
     int updateByPrimaryKey(ProductCategory record);
+
+    List<ProductCategory> selectByIdList(List<Integer> idList);
 }

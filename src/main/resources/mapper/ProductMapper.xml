@@ -6,13 +6,12 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="price" jdbcType="BIGINT" property="price" />
-    <result column="remain" jdbcType="INTEGER" property="remain" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="intro" jdbcType="VARCHAR" property="intro" />
     <result column="cover_image" jdbcType="VARCHAR" property="coverImage" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, category_id, price, remain, status, intro, cover_image
+    id, name, category_id, price, status, intro, cover_image
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -25,7 +24,7 @@
     <include refid="Base_Column_List" />
     from product
   </select>
-  <select id="selectByName" resultType="com.example.mall.modules.product.entity.Product">
+  <select id="selectByName" resultType="com.example.mall.modules.product.entity.ProductBO">
     select
     <include refid="Base_Column_List" />
     from product
@@ -36,9 +35,9 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" useGeneratedKeys="true" parameterType="com.example.mall.modules.product.entity.Product">
-    insert into product (name, category_id, price, remain, status, intro, cover_image)
+    insert into product (name, category_id, price, status, intro, cover_image)
     values (#{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{price,jdbcType=BIGINT}, 
-      #{remain,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR},#{intro,jdbcType=VARCHAR}, #{coverImage,jdbcType=VARCHAR}
+     #{status,jdbcType=VARCHAR},#{intro,jdbcType=VARCHAR}, #{coverImage,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.example.mall.modules.product.entity.Product">
@@ -55,9 +54,6 @@
       </if>
       <if test="price != null">
         price,
-      </if>
-      <if test="remain != null">
-        remain,
       </if>
       <if test="status != null">
       status,
@@ -78,9 +74,6 @@
       </if>
       <if test="price != null">
         #{price,jdbcType=BIGINT},
-      </if>
-      <if test="remain != null">
-        #{remain,jdbcType=INTEGER},
       </if>
       <if test="status != null">
       #{status,jdbcType=VARCHAR},
@@ -105,9 +98,6 @@
       <if test="price != null">
         price = #{price,jdbcType=BIGINT},
       </if>
-      <if test="remain != null">
-        remain = #{remain,jdbcType=INTEGER},
-      </if>
       <if test="status != null">
       status = #{status,jdbcType=VARCHAR},
       </if>
@@ -125,7 +115,6 @@
     set name = #{name,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=INTEGER},
       price = #{price,jdbcType=BIGINT},
-      remain = #{remain,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR},
       intro = #{intro,jdbcType=VARCHAR},
       cover_image = #{coverImage,jdbcType=VARCHAR}

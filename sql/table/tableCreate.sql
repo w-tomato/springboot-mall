@@ -1,7 +1,7 @@
 -- 订单表
 CREATE TABLE orders (
                         id INT PRIMARY KEY AUTO_INCREMENT COMMENT '订单ID', -- 订单ID，主键，自动递增
-                        customer_id INT NOT NULL COMMENT '客户ID', -- 客户ID，非空字段
+                        user_id INT NOT NULL COMMENT '客户ID', -- 客户ID，非空字段
                         order_date DATETIME NOT NULL COMMENT '下单日期和时间', -- 下单日期和时间，非空字段
                         total_amount DECIMAL(10, 2) NOT NULL COMMENT '订单总金额', -- 订单总金额，最大10位数，其中2位小数，非空字段
                         shipping_address VARCHAR(255) NOT NULL COMMENT '配送地址', -- 配送地址，最大长度255个字符，非空字段

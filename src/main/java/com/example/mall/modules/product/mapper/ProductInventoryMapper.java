@@ -9,7 +9,7 @@ public interface ProductInventoryMapper {
 
     int insertSelective(ProductInventory record);
 
-    ProductInventory selectByPrimaryKey(Integer productId);
+    ProductInventory selectByPrimaryKey(Long productId);
 
     int updateByPrimaryKeySelective(ProductInventory record);
 

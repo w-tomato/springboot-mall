@@ -2,6 +2,8 @@ package com.example.mall.modules.product.entity;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class Product {
     private Long id;
@@ -10,9 +12,7 @@ public class Product {
 
     private Integer categoryId;
 
-    private Long price;
-
-    private Integer remain;
+    private BigDecimal price;
 
     private String status;
 

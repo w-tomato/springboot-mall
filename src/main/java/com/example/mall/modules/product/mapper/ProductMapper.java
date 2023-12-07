@@ -1,6 +1,7 @@
 package com.example.mall.modules.product.mapper;
 
 import com.example.mall.modules.product.entity.Product;
+import com.example.mall.modules.product.entity.ProductBO;
 import com.example.mall.modules.product.entity.ProductInventory;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public interface ProductMapper {
 
     List<Product> selectAll();
 
-    List<Product> selectByName(String name, String status);
+    List<ProductBO> selectByName(String name, String status);
 }

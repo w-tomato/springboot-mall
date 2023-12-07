@@ -15,7 +15,15 @@
     from product_category
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByIdList" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from product_category
+    where id in
+    <foreach collection="idList" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from product_category
     where id = #{id,jdbcType=INTEGER}
   </delete>

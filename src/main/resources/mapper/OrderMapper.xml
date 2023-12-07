@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mall.modules.order.mapper.OrderMapper">
   <resultMap id="BaseResultMap" type="com.example.mall.modules.order.entity.Order">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
-    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
-    <result column="total_amount" jdbcType="DECIMAL" property="totalAmount" />
-    <result column="shipping_address" jdbcType="VARCHAR" property="shippingAddress" />
-    <result column="payment_method" jdbcType="VARCHAR" property="paymentMethod" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <id column="id" property="id" />
+    <result column="user_id" property="userId" />
+    <result column="order_date" property="orderDate" />
+    <result column="total_amount" property="totalAmount" />
+    <result column="shipping_address" property="shippingAddress" />
+    <result column="payment_method" property="paymentMethod" />
+    <result column="status" property="status" />
+    <result column="create_time" property="createTime" />
+    <result column="update_time" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, customer_id, order_date, total_amount, shipping_address, payment_method, status, 
+    id, user_id, order_date, total_amount, shipping_address, payment_method, status,
     create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -21,6 +21,12 @@
     <include refid="Base_Column_List" />
     from orders
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from orders
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from orders
@@ -30,10 +36,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into orders (customer_id, order_date, total_amount, 
+    insert into orders (user_id, order_date, total_amount,
       shipping_address, payment_method, status, 
       create_time, update_time)
-    values (#{customerId,jdbcType=INTEGER}, #{orderDate,jdbcType=TIMESTAMP}, #{totalAmount,jdbcType=DECIMAL}, 
+    values (#{userId,jdbcType=INTEGER}, #{orderDate,jdbcType=TIMESTAMP}, #{totalAmount,jdbcType=DECIMAL},
       #{shippingAddress,jdbcType=VARCHAR}, #{paymentMethod,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -43,8 +49,8 @@
     </selectKey>
     insert into orders
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="customerId != null">
-        customer_id,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="orderDate != null">
         order_date,
@@ -69,8 +75,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="customerId != null">
-        #{customerId,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="orderDate != null">
         #{orderDate,jdbcType=TIMESTAMP},
@@ -98,8 +104,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.example.mall.modules.order.entity.Order">
     update orders
     <set>
-      <if test="customerId != null">
-        customer_id = #{customerId,jdbcType=INTEGER},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="orderDate != null">
         order_date = #{orderDate,jdbcType=TIMESTAMP},
@@ -127,7 +133,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.mall.modules.order.entity.Order">
     update orders
-    set customer_id = #{customerId,jdbcType=INTEGER},
+    set user_id = #{userId,jdbcType=INTEGER},
       order_date = #{orderDate,jdbcType=TIMESTAMP},
       total_amount = #{totalAmount,jdbcType=DECIMAL},
       shipping_address = #{shippingAddress,jdbcType=VARCHAR},
