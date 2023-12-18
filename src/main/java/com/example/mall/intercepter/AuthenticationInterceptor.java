@@ -1,6 +1,7 @@
 package com.example.mall.intercepter;
 
 import com.alibaba.fastjson.JSON;
+import com.example.mall.modules.records.services.UserAccessRecordsService;
 import com.example.mall.modules.user.entity.User;
 import com.example.mall.modules.user.entity.UserRole;
 import com.example.mall.modules.user.entity.bo.UserBO;
@@ -36,6 +37,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     UserService userService;
     @Autowired
     UserRoleService userRoleService;
+    @Autowired
+    UserAccessRecordsService userAccessRecordsService;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws Exception {
@@ -117,6 +120,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         }
         return true;
     }
+
+
 
     private void setResponse(HttpServletResponse response, int status, String message) throws IOException {
         response.setStatus(200);

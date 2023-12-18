@@ -1,10 +1,10 @@
 package com.example.mall.modules.product.controller;
 
+import com.example.mall.annotation.OperLog;
 import com.example.mall.modules.product.entity.Product;
 import com.example.mall.modules.product.entity.ProductBO;
 import com.example.mall.modules.product.entity.ProductCategory;
 import com.example.mall.modules.product.entity.ProductInventory;
-import com.example.mall.modules.product.mapper.ProductInventoryMapper;
 import com.example.mall.modules.product.services.ProductCategoryService;
 import com.example.mall.modules.product.services.ProductInventoryService;
 import com.example.mall.modules.product.services.ProductService;
@@ -63,6 +63,7 @@ public class ProductController {
     }
 
     @RequestMapping("/get")
+    @OperLog(operModul = "产品", operType = "查询", operDesc = "查询产品")
     public ResultObject get(@RequestParam("id") Long id) {
         Product product = productService.selectOne(id);
         // 查询库存
