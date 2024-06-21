@@ -85,3 +85,12 @@ CREATE TABLE `user_action_log` (
                                    PRIMARY KEY (`log_id`),
                                    INDEX `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户操作记录表';
+
+CREATE TABLE user_access_records (
+                                     id INT AUTO_INCREMENT PRIMARY KEY COMMENT '记录ID',
+                                     user_id INT NOT NULL COMMENT '用户ID',
+                                     uri VARCHAR(255) NOT NULL COMMENT '访问的URI',
+                                     params VARCHAR(255) COMMENT '请求参数',
+                                     create_time TIMESTAMP NOT NULL COMMENT '创建时间',
+                                     ext TEXT COMMENT '扩展字段'
+) COMMENT='用户访问记录表';
